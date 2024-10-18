@@ -2,8 +2,9 @@ import asyncio
 import os
 from langchain_huggingface import HuggingFaceEmbeddings
 from dotenv import load_dotenv
-from text_to_speech import text_to_speech
-from utils import get_transcription
+from .text_to_speech import text_to_speech
+from .utils import get_transcription
+
 from langchain_core.messages import (
     HumanMessage,
     SystemMessage,
@@ -80,8 +81,3 @@ class VoiceAssistant:
                 ai_response = await self.get_ai_response(self.transcript)
                 print(f"AI response: {ai_response}")
                 text_to_speech(ai_response)
-
-if __name__ == "__main__":
-    load_dotenv()
-    assistant = VoiceAssistant()
-    asyncio.run(assistant.run())

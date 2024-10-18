@@ -1,4 +1,6 @@
-from model import get_client
+import asyncio
+from voice_assistant.src.gemini_voice_assistant import VoiceAssistant
 
-llm = get_client()
-
+if __name__ == "__main__":
+    assistant = VoiceAssistant()
+    asyncio.run(assistant.run())
