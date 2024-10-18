@@ -1,0 +1,3 @@
+db/plug-and-tel-assignment-db/chroma.sqlite3 filter=lfs diff=lfs merge=lfs -text
+data/sujet_dataset.csv filter=lfs diff=lfs merge=lfs -text
+data/fixed_sujet_dataset.csv filter=lfs diff=lfs merge=lfs -text
