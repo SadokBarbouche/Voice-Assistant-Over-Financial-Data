@@ -1,23 +1,29 @@
+<div align="center">
+	<img src="assets/logo.png">
+</div>
+
 ## Choix des Modèles et des Technologies
 
 ### Modèle d'Embedding
 ![alt text](assets/image.png)
 
-Pour notre système de récupération de l'information, nous avons opté pour le modèle `Lajavaness/bilingual-embedding-small`. Ce choix est justifié par plusieurs facteurs clés :
+Pour mon système de récupération de l'information, j'ai opté pour le modèle `Lajavaness/bilingual-embedding-small`. Ce choix est justifié par plusieurs facteurs clés :
 
 1. **Performance** : Le modèle se classe 23ème sur le leaderboard Massive Text Embedding Benchmark (MTEB) pour la récupération en français. Cette position témoigne de son efficacité à générer des embeddings pertinents pour des tâches de recherche de texte.
 
 2. **Taille** : Avec moins de 250 millions de paramètres, `Lajavaness/bilingual-embedding-small` est le modèle le plus performant en termes de taille sur le leaderboard. Cela le rend particulièrement adapté pour une utilisation locale, car il nécessite moins de ressources computationnelles et peut être déployé sur des machines avec des capacités limitées.
 
-3. **Bilinguisme** : Ce modèle est conçu pour travailler efficacement avec des données en français, ce qui est essentiel pour notre projet qui cible principalement ce langage.
+3. **Bilinguisme** : Ce modèle est conçu pour travailler efficacement avec des données en français, ce qui est essentiel pour le projet qui cible principalement ce langage.
 
 ### Base de Données Vectorielle
-![alt text](assets/chroma.png)
 
+<div align="center">
+<img src="assets/chroma.png">
+</div>
 
-Pour le stockage et la gestion des embeddings, nous avons choisi **ChromaDB** pour les raisons suivantes :
+Pour le stockage et la gestion des embeddings, j'ai choisi **ChromaDB** pour les raisons suivantes :
 
-- **Facilité d'utilisation** : ChromaDB offre une interface conviviale qui simplifie le processus d'intégration dans notre application.
+- **Facilité d'utilisation** : ChromaDB offre une interface conviviale qui simplifie le processus d'intégration dans mon application.
   
 - **Gratuité** : En tant que solution open-source, ChromaDB ne génère pas de coûts supplémentaires, ce qui est idéal pour le développement local.
 
@@ -33,7 +39,7 @@ Le système RAG (Retrieval-Augmented Generation) suit les étapes suivantes pour
 
 2. **Conversion Voix en Texte** : L'assistant vocal utilise des techniques de reconnaissance vocale pour transformer la voix de l'utilisateur en texte.
 
-3. **Embedding du Texte** : Le texte converti est ensuite passé par un modèle d'embedding (`Lajavaness/bilingual-embedding-small` dans notre cas), qui génère un vecteur numérique représentant la requête.
+3. **Embedding du Texte** : Le texte converti est ensuite passé par un modèle d'embedding (`Lajavaness/bilingual-embedding-small` dans mon cas), qui génère un vecteur numérique représentant la requête.
 
 4. **Recherche de Similarité** : À l'aide de la base de données vectorielle, le système recherche les questions les plus similaires en calculant la similarité entre le vecteur d'embedding de la requête et les vecteurs d'embedding des questions stockées dans la base de données.
 
@@ -48,8 +54,9 @@ Le système RAG (Retrieval-Augmented Generation) suit les étapes suivantes pour
 9. **Conversion Texte en Parole (TTS)** : La réponse générée est ensuite convertie en parole à l'aide d'un système de synthèse vocale (Text-to-Speech, TTS) pour que l'utilisateur puisse l'entendre.
 
 10. **Fin de la Session** : Le programme continue d'écouter les requêtes de l'utilisateur jusqu'à ce qu'il prononce le mot "stop", moment auquel le programme se termine.
-
-![alt text](assets/seq_diag.png)
+<div align="center">
+<img src="assets/seq_diag.png">
+</div>
 
 ---
 
@@ -104,17 +111,23 @@ pip install -r requirements.txt
 ```
 
 Si vous êtes sur Windows, vous pourriez rencontrer une erreur lors de l'installation de Chroma. 
-![alt text](assets/error.png)
+
+<div align="center">
+<img src="assets/error.png">
+</div>
+
 
 Voici un lien vers la solution: [Erreur d'installation de Chroma](https://stackoverflow.com/questions/73969269/error-could-not-build-wheels-for-hnswlib-which-is-required-to-install-pyprojec/76245995#76245995).
 
-![Solution](assets/solution.png)
+<div align="center">
+<img src="assets/solution.png">
+</div>
 
 Puis essayer de réexecuter :
 ```bash
 pip install -r requirements.txt
 ```
-Le problème doit disparaitre.
+Le problème doit disparaître.
 
 ### 6. Lancer l'Application
 
@@ -123,10 +136,11 @@ Après avoir installé les dépendances, vous pouvez lancer l'application avec l
 ```bash
 python main.py
 ```
-NB : Le projet necessite une `DEEPGRAM_API_KEY` et une `GOOGLE_API_KEY` dans votre fichier `.env`.
+NB : Le projet nécessite une `DEEPGRAM_API_KEY` et une `GOOGLE_API_KEY` dans votre fichier `.env`.
+
 ---
+
 ### 7. Détails du Refactoring et du Prototype
-J'ai effectué un refactoring du code, notamment en le divisant en plusieurs modules. Des changements au niveau du vocal assistant vu que je ne dispose pas de OpenAI ChatGPT Key. Veuillez noter que la gestion des interactions entre l'utilisateur et l'assistant vocal est encore en phase de prototype, donc les interactions ne sont pas totalement optimisées pour le moment.
+J'ai effectué un refactoring du code, notamment en le divisant en plusieurs modules. Des changements ont été apportés au niveau de l'assistant vocal, car je ne dispose pas de clé OpenAI ChatGPT. Veuillez noter que la gestion des interactions entre l'utilisateur et l'assistant vocal est encore en phase de prototype, donc les interactions ne sont pas totalement optimisées pour le moment.
 
-Cependant, vous pouvez déjà interagir avec l'assistant vocal sur des données du dataset sujet-ai/Sujet-Financial-RAG-FR-Dataset. Toute question en dehors des données de la base n'est pas acceptable comme c'est demandé.
-
+Cependant, vous pouvez déjà interagir avec l'assistant vocal sur des données du dataset `sujet-ai/Sujet-Financial-RAG-FR-Dataset`. Toute question en dehors des données de la base n'est pas acceptable comme cela est demandé.
