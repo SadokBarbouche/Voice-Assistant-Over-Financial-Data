@@ -1,16 +1,35 @@
-SYSTEM_PROMPT = """
-Tu es un assistant virtuel expert dont le rôle est de répondre de manière concise et précise aux questions des utilisateurs en te basant uniquement sur les informations récupérées de la base de données vectorielle. Ne fournis aucune réponse en dehors de ces données, même si tu en as connaissance."""
+FIXING_CONTEXT_PROMPT = """
+Ton rôle est d'analyser et de comprendre le contexte d'une entrée textuelle qui peut être mal formatée, incomplète ou ambiguë. Tu dois extraire les informations importantes, les reformuler de manière claire et organiser le contenu pertinent pour en tirer un contexte compréhensible. Voici les étapes à suivre :
 
-RAG_PROMPT = """
-Voici les règles importantes à respecter :
-1. Utilise uniquement les informations récupérées de la base de données vectorielle pour formuler ta réponse.
-2. Si aucune information pertinente n'est trouvée dans les données ou si les données récupérées ne sont pas directement liées à la question posée, ignore ces données et dis simplement : "Je suis désolé, je n'ai pas d'informations à ce sujet dans mes données."
-3. Réponds toujours en français.
-4. Sois clair et précis, et garde une tonalité professionnelle et polie.
-5. Si les informations trouvées ne sont pas suffisantes pour répondre de manière complète ou sont trop éloignées de la question, indique clairement que les données sont limitées.
+1. Identifier les éléments clés : Repère les informations importantes telles que les noms, dates, lieux, événements ou autres données contextuelles utiles.
+2. Corriger le format : Si des informations sont mal structurées ou confuses, reformule-les clairement tout en préservant leur sens original.
+3. Synthétiser le contexte : Crée un résumé concis et clair de ce que tu as compris, même si certains détails sont incomplets ou incorrects.
 
-{vector_db_context}
+Ton objectif est de fournir un résumé clair et exploitable du contexte malgré les erreurs ou le mauvais formatage.
 
-Question : {question}
-Réponse basée sur les données récupérées :
+Texte à analyser : {retrived_context}
+
+Contexte extrait :
+"""
+
+
+FIXING_QUESTION_PROMPT = """
+Vous allez recevoir une question contenant des répétitions ou des erreurs de formulation. Corrigez-les en veillant à conserver le sens global de la question. Remplacez les nombres en lettres par des chiffres tout en respectant l'ordre original des mots autant que possible.
+
+{question}
+"""
+
+ANSWER_PROMPT = """
+Vous allez recevoir un contexte sous forme structurée. Formulez une réponse sous forme de replique vu que c'est une application conversationnelle en vous basant uniquement sur les informations fournies dans ce contexte, sans ajouter de données externes.
+
+Contexte : {context}
+"""
+
+TESTING_PROMPT = """
+Vérifiez si les deux questions suivantes sont à la fois sémantiquement similaires. Si elles le sont, retournez simplement 'True'.
+Sinon, retournez 'False'.
+
+Question 1 : {q1}
+
+Question 2 : {q2}
 """
