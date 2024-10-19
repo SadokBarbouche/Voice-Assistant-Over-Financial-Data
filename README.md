@@ -95,10 +95,6 @@ source venv/bin/activate
 venv\Scripts\activate
 ```
 
-Voici une version révisée de votre README pour améliorer la clarté et la présentation :
-
----
-
 ### 5. Installer les Dépendances
 
 Installez ensuite les dépendances requises en exécutant la commande suivante :
