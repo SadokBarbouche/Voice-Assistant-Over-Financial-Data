@@ -25,10 +25,6 @@ Pour le stockage et la gestion des embeddings, nous avons choisi **ChromaDB** po
 
 ---
 
-Voici une description détaillée du fonctionnement de votre système RAG :
-
----
-
 ## Fonctionnement du Système RAG
 
 Le système RAG (Retrieval-Augmented Generation) suit les étapes suivantes pour traiter les requêtes de l'utilisateur via un assistant vocal :
