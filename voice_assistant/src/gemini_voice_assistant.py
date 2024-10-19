@@ -75,8 +75,7 @@ class VoiceAssistant:
 
             if STOP_COMMAND in self.transcript.lower():
                 print("Stopping voice assistant...")
-                break
-            
+                return            
             if self.transcript:
                 ai_response = await self.get_ai_response(self.transcript)
                 print(f"AI response: {ai_response}")

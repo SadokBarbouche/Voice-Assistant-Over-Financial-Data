@@ -123,7 +123,7 @@ Après avoir installé les dépendances, vous pouvez lancer l'application avec l
 ```bash
 python main.py
 ```
-
+NB : Le projet necessite une `DEEPGRAM_API_KEY` et une `GOOGLE_API_KEY` dans votre fichier `.env`.
 ---
 ### 7. Détails du Refactoring et du Prototype
 J'ai effectué un refactoring du code, notamment en le divisant en plusieurs modules. Des changements au niveau du vocal assistant vu que je ne dispose pas de OpenAI ChatGPT Key. Veuillez noter que la gestion des interactions entre l'utilisateur et l'assistant vocal est encore en phase de prototype, donc les interactions ne sont pas totalement optimisées pour le moment.
