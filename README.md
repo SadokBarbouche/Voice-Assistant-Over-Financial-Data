@@ -95,13 +95,30 @@ source venv/bin/activate
 venv\Scripts\activate
 ```
 
+Voici une version révisée de votre README pour améliorer la clarté et la présentation :
+
+---
+
 ### 5. Installer les Dépendances
 
-Installez les dépendances requises en exécutant la commande suivante :
+Installez ensuite les dépendances requises en exécutant la commande suivante :
 
 ```bash
 pip install -r requirements.txt
 ```
+
+Si vous êtes sur Windows, vous pourriez rencontrer une erreur lors de l'installation de Chroma. 
+![alt text](assets/error.png)
+
+Voici un lien vers la solution: [Erreur d'installation de Chroma](https://stackoverflow.com/questions/73969269/error-could-not-build-wheels-for-hnswlib-which-is-required-to-install-pyprojec/76245995#76245995).
+
+![Solution](assets/solution.png)
+
+Puis essayer de réexecuter :
+```bash
+pip install -r requirements.txt
+```
+Le problème doit disparaitre.
 
 ### 6. Lancer l'Application
 
@@ -112,7 +129,6 @@ python main.py
 ```
 
 ---
-
 ### 7. Détails du Refactoring et du Prototype
 J'ai effectué un refactoring du code, notamment en le divisant en plusieurs modules. Des changements au niveau du vocal assistant vu que je ne dispose pas de OpenAI ChatGPT Key. Veuillez noter que la gestion des interactions entre l'utilisateur et l'assistant vocal est encore en phase de prototype, donc les interactions ne sont pas totalement optimisées pour le moment.
 
