@@ -10,34 +10,38 @@ from deepgram import (
 
 load_dotenv()
 
+
 def remove_redundancy_with_punctuation(transcript):
-    sentences = transcript.split('. ')
+    sentences = transcript.split(". ")
     unique_segments = []
     seen_segments = set()
     for sentence in sentences:
         words = sentence.split()
-        normalized_sentence = ' '.join(words).lower()
+        normalized_sentence = " ".join(words).lower()
         if normalized_sentence not in seen_segments:
             seen_segments.add(normalized_sentence)
             unique_segments.append(sentence)
-    cleaned_transcript = ' '.join(unique_segments)
-    cleaned_transcript = cleaned_transcript.replace('..', '.')
+    cleaned_transcript = " ".join(unique_segments)
+    cleaned_transcript = cleaned_transcript.replace("..", ".")
     cleaned_transcript = cleaned_transcript.strip()
     return cleaned_transcript
 
 
-async def get_transcription(api_key, model="nova-2", language="fr-FR", endpointing=1000):
+async def get_transcription(
+    api_key, model="nova-2", language="fr-FR", endpointing=1000
+):
     final_transcription = ""
     transcription_done = asyncio.Event()
     try:
         deepgram = DeepgramClient(api_key)
         dg_connection = deepgram.listen.websocket.v("1")
+
         def on_message(_, result, **kwargs):
             nonlocal final_transcription
             sentence = result.channel.alternatives[0].transcript
             if sentence:
                 print(f"Transcript: {sentence}")
-                final_transcription += sentence + " " 
+                final_transcription += sentence + " "
                 if result.speech_final:
                     transcription_done.set()
 
@@ -67,8 +71,6 @@ async def get_transcription(api_key, model="nova-2", language="fr-FR", endpointi
             input=True,
             frames_per_buffer=1024,
         )
-
-        print("Listening... Press Ctrl+C to stop.")
         try:
             while not transcription_done.is_set():
                 data = stream.read(1024)
@@ -85,6 +87,7 @@ async def get_transcription(api_key, model="nova-2", language="fr-FR", endpointi
     except Exception as e:
         print(f"Error: {e}")
         return ""
+
 
 if __name__ == "__main__":
     DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")

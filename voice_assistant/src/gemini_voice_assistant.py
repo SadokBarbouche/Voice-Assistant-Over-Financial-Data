@@ -1,4 +1,3 @@
-import asyncio
 import os
 from langchain_huggingface import HuggingFaceEmbeddings
 from dotenv import load_dotenv
@@ -32,6 +31,7 @@ DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
 
 STOP_COMMAND = "stop"
 
+
 class VoiceAssistant:
     def __init__(self):
         self.transcript = ""
@@ -62,6 +62,11 @@ class VoiceAssistant:
                     ),
                 ]
             )
+            print(
+                RAG_PROMPT.format(
+                    question=transcript, vector_db_context=fetched_context
+                )
+            )
             return response.content
         except Exception as e:
             print(f"Error in getting AI response: {e}")
@@ -75,7 +80,7 @@ class VoiceAssistant:
 
             if STOP_COMMAND in self.transcript.lower():
                 print("Stopping voice assistant...")
-                return            
+                return
             if self.transcript:
                 ai_response = await self.get_ai_response(self.transcript)
                 print(f"AI response: {ai_response}")
