@@ -29,7 +29,7 @@ Pour le stockage et la gestion des embeddings, j'ai choisi **ChromaDB** pour les
 
 - **Adapté à une utilisation locale** : ChromaDB est conçu pour fonctionner efficacement sur des environnements de développement locaux, permettant ainsi une expérience de développement fluide sans nécessiter d'infrastructure complexe.
 
-### Fonctionnement du Système RAG avec l'Assistant Vocal (Mise à jour)
+### Fonctionnement du Système RAG avec l'Assistant Vocal
 
 Le système RAG (Retrieval-Augmented Generation) dans l'assistant vocal suit désormais ce flux pour traiter les requêtes de l'utilisateur :
 
