@@ -120,12 +120,14 @@ Le problème doit disparaître.
 
 ### 6. Lancer l'Application
 
+Créer le fichier `.env` et insérer vos API keys. (DEEPGRAM_API_KEY et GOOGLE_API_KEY pour utiliser Gemini)
+
 Après avoir installé les dépendances, vous pouvez lancer l'application avec la commande suivante :
 
 ```bash
 python main.py
 ```
-NB : Le projet nécessite une `DEEPGRAM_API_KEY` et une `GOOGLE_API_KEY` dans votre fichier `.env`.
+NB : Le projet nécessite impérativement une `DEEPGRAM_API_KEY` et une `GOOGLE_API_KEY` dans votre fichier `.env`.
 
 ---
 
