@@ -21,11 +21,6 @@ from rag.utils import query_question
 from rag.load_db import vector_store
 from model import get_client
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="Lajavaness/bilingual-embedding-small",
-    model_kwargs={"trust_remote_code": True},
-)
-
 client = get_client()
 
 load_dotenv()
@@ -65,12 +60,13 @@ class VoiceAssistant:
                 fixed_question, vector_store, self.embeddings
             )
             # This chain is used for checking similarities between the fetched question from the db and the one fixed by the llm
+            # Instead of loading a new embedding model
             testing_prompt = PromptTemplate(
                 input_variables=["q1", "q2"], template=TESTING_PROMPT
             )
             testing_chain = testing_prompt | self.client | StrOutputParser()
             test = testing_chain.invoke({"q1": fixed_question, "q2": fetched_question})
-            print(f"test: {test}")
+            # print(f"test: {test}")
             if "false" in test.lower():
                 "Desole. La question n'esxiste pas dans la base."
                 return
@@ -82,7 +78,7 @@ class VoiceAssistant:
             fixing_chain = fixing_prompt | self.client | StrOutputParser()
             fixed_context = fixing_chain.invoke({"retrived_context": fetched_context})
 
-            print(f"fixed context : {fixed_context}")
+            # print(f"fixed context : {fixed_context}")
 
             response = await self.client.ainvoke(
                 input=[
@@ -93,7 +89,7 @@ class VoiceAssistant:
                     ),
                 ]
             )
-            print(f"response : {response}")
+            # print(f"response : {response}")
 
             return response.content
         except Exception as e:
