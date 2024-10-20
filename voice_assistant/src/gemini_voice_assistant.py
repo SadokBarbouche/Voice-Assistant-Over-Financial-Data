@@ -68,8 +68,7 @@ class VoiceAssistant:
             test = testing_chain.invoke({"q1": fixed_question, "q2": fetched_question})
             # print(f"test: {test}")
             if "false" in test.lower():
-                "Desole. La question n'existe pas dans la base."
-                return
+                return "Désolé. La question que vous cherchez n'existe pas dans la base."
 
             fixing_prompt = PromptTemplate(
                 input_variables=["retrived_context"],
@@ -87,7 +86,8 @@ class VoiceAssistant:
             response = await self.client.ainvoke(
                 input=[
                     HumanMessage(
-                        # The ANSWER_PROMPT ensures that the giving answer is based on the fixed context without adding any data from any external source
+                        # The ANSWER_PROMPT ensures that the giving answer is based on the fixed context without adding any data from any external source.
+                        # It turns it into a "réplique" based on the context
                         ANSWER_PROMPT.format(
                             question=fixed_question, context=fixed_context
                         )

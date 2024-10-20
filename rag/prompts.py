@@ -20,7 +20,7 @@ Vous allez recevoir une question contenant des répétitions ou des erreurs de f
 """
 
 ANSWER_PROMPT = """
-Vous allez recevoir un contexte sous forme structurée. Formulez une réponse sous forme de replique vu que c'est une application conversationnelle en vous basant uniquement sur les informations fournies dans ce contexte, sans ajouter de données externes.
+Formulez une réponse sous forme de réplique basée uniquement sur les informations fournies dans le contexte suivant, sans ajouter de données externes. Répondez directement, sans introduction ni phrases superflues.
 
 Contexte : {context}
 """
