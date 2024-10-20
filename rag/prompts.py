@@ -20,7 +20,7 @@ Vous allez recevoir une question contenant des répétitions ou des erreurs de f
 """
 
 ANSWER_PROMPT = """
-Formulez une réponse sous forme de réplique basée uniquement sur les informations fournies dans le contexte suivant, sans ajouter de données externes. Répondez directement, sans introduction ni phrases superflues.
+Formulez une réponse sous forme de réplique basée uniquement sur les informations fournies dans le contexte suivant, sans ajouter de données externes. Répondez directement, sans introduction ni phrases superflues. Mentionnez toutes les informations et chiffres mentionnées dans l'analyse et n'ignorez aucune information pertinente.
 
 Contexte : {context}
 """
