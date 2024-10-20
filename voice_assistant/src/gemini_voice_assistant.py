@@ -68,13 +68,17 @@ class VoiceAssistant:
             test = testing_chain.invoke({"q1": fixed_question, "q2": fetched_question})
             # print(f"test: {test}")
             if "false" in test.lower():
-                "Desole. La question n'esxiste pas dans la base."
+                "Desole. La question n'existe pas dans la base."
                 return
 
             fixing_prompt = PromptTemplate(
                 input_variables=["retrived_context"],
                 template=FIXING_CONTEXT_PROMPT,
             )
+
+            # If the question PASSES the test, we are sure that the retrieved context is RIGHT, so we can feed it to the next chain to fix it and analyse it
+
+            # This chain is used for fixing the context and giving an analysis about it
             fixing_chain = fixing_prompt | self.client | StrOutputParser()
             fixed_context = fixing_chain.invoke({"retrived_context": fetched_context})
 
@@ -83,6 +87,7 @@ class VoiceAssistant:
             response = await self.client.ainvoke(
                 input=[
                     HumanMessage(
+                        # The ANSWER_PROMPT ensures that the giving answer is based on the fixed context without adding any data from any external source
                         ANSWER_PROMPT.format(
                             question=fixed_question, context=fixed_context
                         )
