@@ -33,23 +33,15 @@ Pour le stockage et la gestion des embeddings, j'ai choisi **ChromaDB** pour les
 
 Le système RAG (Retrieval-Augmented Generation) dans l'assistant vocal suit désormais ce flux pour traiter les requêtes de l'utilisateur :
 
-1. **Entrée de la Requête (Voix)** : L'utilisateur énonce sa requête via l'assistant vocal.
-
+1. **Entrée de la requête (Voix)** : L'utilisateur énonce sa requête via l'assistant vocal.
 2. **Transcription (Voix en Texte)** : La requête vocale est convertie en texte grâce à Deepgram, qui fournit la transcription.
-
-3. **Prétraitement de la Question** : Le texte est ensuite soumis à un LLM (Langage Large Modèle), ici **Gemini**, qui corrige la question afin de la rendre exploitable pour la recherche.
-
-4. **Recherche de Similarité** : Le système interroge la base de données vectorielle (gérée avec ChromaDB) pour trouver les questions les plus similaires en utilisant des embeddings générés par le modèle `Lajavaness/bilingual-embedding-small`.
-
-5. **Validation de la Similarité** : Un prompt dédié vérifie la similitude entre la question corrigée et celle extraite de la base. Si la correspondance n'est pas suffisante, le système indique que la question n'est pas dans la base.
-
-6. **Récupération et Préparation du Contexte** : Si la question est présente, le contexte correspondant est récupéré et corrigé via un prompt dédié au LLM pour assurer sa pertinence.
-
-7. **Génération de la Réponse** : Le contexte corrigé est ensuite utilisé par le LLM pour générer une réponse, en fonction des règles fournies par les prompts RAG.
-
-8. **Synthèse Vocale (TTS)** : La réponse textuelle est convertie en voix via un système de synthèse vocale, et l'utilisateur reçoit la réponse.
-
-9. **Fin de la Session** : L'assistant vocal continue de fonctionner jusqu'à ce que l'utilisateur prononce "stop", moment auquel il se termine.
+3. **Prétraitement de la question** : Le texte est ensuite soumis à un LLM (Large Langage Model), ici **Gemini**, qui corrige la question afin de la rendre exploitable pour la recherche, via la chaîne `fixing_chain` qui utilise le `FIXING_QUESTION_PROMPT`.
+4. **Recherche de similarité** : Le système interroge la base de données vectorielle (gérée avec ChromaDB) pour trouver les questions les plus similaires en utilisant des embeddings générés par le modèle `Lajavaness/bilingual-embedding-small`.
+5. **Validation de la similarité** : Un prompt dédié vérifie la similarité sémantique entre la question corrigée et celle extraite de la base. Si la correspondance n'est pas suffisante, le système indique que la question n'est pas dans la base via la chaîne `testing_chain`, qui utilise le `TESTING_PROMPT`.
+6. **Récupération et préparation du contexte** : Si la question est présente, le contexte correspondant est récupéré et corrigé via un prompt dédié (`FIXING_CONTEXT_PROMPT`) au LLM pour assurer sa pertinence, grâce à la chaîne `fixing_chain`.
+7. **Génération de la réponse** : Le contexte corrigé est ensuite utilisé par le LLM pour générer une réponse, en fonction des règles fournies par le prompt `ANSWER_PROMPT`, qui s'assure que la réponse est basée uniquement sur le contexte et non sur des données extérieures.
+8. **Synthèse vocale (TTS)** : La réponse textuelle est convertie en voix via un système de synthèse vocale, et l'utilisateur reçoit la réponse.
+9. **Fin de la session** : L'assistant vocal continue de fonctionner jusqu'à ce que l'utilisateur dise "stop", moment auquel il se termine.
 
 <div align="center">
 <img src="assets/seq_diag.png">
