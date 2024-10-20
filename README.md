@@ -29,31 +29,28 @@ Pour le stockage et la gestion des embeddings, j'ai choisi **ChromaDB** pour les
 
 - **Adapté à une utilisation locale** : ChromaDB est conçu pour fonctionner efficacement sur des environnements de développement locaux, permettant ainsi une expérience de développement fluide sans nécessiter d'infrastructure complexe.
 
----
+### Fonctionnement du Système RAG avec l'Assistant Vocal (Mise à jour)
 
-## Fonctionnement du Système RAG
+Le système RAG (Retrieval-Augmented Generation) dans l'assistant vocal suit désormais ce flux pour traiter les requêtes de l'utilisateur :
 
-Le système RAG (Retrieval-Augmented Generation) suit les étapes suivantes pour traiter les requêtes de l'utilisateur via un assistant vocal :
+1. **Entrée de la Requête (Voix)** : L'utilisateur énonce sa requête via l'assistant vocal.
 
-1. **Entrée de la Requête** : L'utilisateur énonce sa requête à l'aide de l'assistant vocal. 
+2. **Transcription (Voix en Texte)** : La requête vocale est convertie en texte grâce à Deepgram, qui fournit la transcription.
 
-2. **Conversion Voix en Texte** : L'assistant vocal utilise des techniques de reconnaissance vocale pour transformer la voix de l'utilisateur en texte.
+3. **Prétraitement de la Question** : Le texte est ensuite soumis à un LLM (Langage Large Modèle), ici **Gemini**, qui corrige la question afin de la rendre exploitable pour la recherche.
 
-3. **Embedding du Texte** : Le texte converti est ensuite passé par un modèle d'embedding (`Lajavaness/bilingual-embedding-small` dans mon cas), qui génère un vecteur numérique représentant la requête.
+4. **Recherche de Similarité** : Le système interroge la base de données vectorielle (gérée avec ChromaDB) pour trouver les questions les plus similaires en utilisant des embeddings générés par le modèle `Lajavaness/bilingual-embedding-small`.
 
-4. **Recherche de Similarité** : À l'aide de la base de données vectorielle, le système recherche les questions les plus similaires en calculant la similarité entre le vecteur d'embedding de la requête et les vecteurs d'embedding des questions stockées dans la base de données.
+5. **Validation de la Similarité** : Un prompt dédié vérifie la similitude entre la question corrigée et celle extraite de la base. Si la correspondance n'est pas suffisante, le système indique que la question n'est pas dans la base.
 
-5. **Récupération des Contextes** : Si des questions similaires sont trouvées, le système récupère les contextes (réponses) associés à ces questions.
+6. **Récupération et Préparation du Contexte** : Si la question est présente, le contexte correspondant est récupéré et corrigé via un prompt dédié au LLM pour assurer sa pertinence.
 
-6. **Passage aux LLM** : Les contextes récupérés sont ensuite passés au modèle de langage choisi, en l'occurrence **Gemini 1.5 Pro**.
+7. **Génération de la Réponse** : Le contexte corrigé est ensuite utilisé par le LLM pour générer une réponse, en fonction des règles fournies par les prompts RAG.
 
-7. **Règles de Génération** : Le LLM est contrôlé par des prompts système et RAG, qui lui fournissent des règles à suivre et le restreignent aux données récupérées. Cela garantit que les réponses générées sont pertinentes et basées sur les informations de la base de données.
+8. **Synthèse Vocale (TTS)** : La réponse textuelle est convertie en voix via un système de synthèse vocale, et l'utilisateur reçoit la réponse.
 
-8. **Génération de la Réponse** : Une fois que le LLM a été prompté, il génère une réponse.
+9. **Fin de la Session** : L'assistant vocal continue de fonctionner jusqu'à ce que l'utilisateur prononce "stop", moment auquel il se termine.
 
-9. **Conversion Texte en Parole (TTS)** : La réponse générée est ensuite convertie en parole à l'aide d'un système de synthèse vocale (Text-to-Speech, TTS) pour que l'utilisateur puisse l'entendre.
-
-10. **Fin de la Session** : Le programme continue d'écouter les requêtes de l'utilisateur jusqu'à ce qu'il prononce le mot "stop", moment auquel le programme se termine.
 <div align="center">
 <img src="assets/seq_diag.png">
 </div>
@@ -140,7 +137,10 @@ NB : Le projet nécessite une `DEEPGRAM_API_KEY` et une `GOOGLE_API_KEY` dans vo
 
 ---
 
-### 7. Détails du Refactoring et du Prototype
+### Détails du Refactoring et du Prototype
+
 J'ai effectué un refactoring du code, notamment en le divisant en plusieurs modules. Des changements ont été apportés au niveau de l'assistant vocal, car je ne dispose pas de clé OpenAI ChatGPT. Veuillez noter que la gestion des interactions entre l'utilisateur et l'assistant vocal est encore en phase de prototype, donc les interactions ne sont pas totalement optimisées pour le moment.
 
 Cependant, vous pouvez déjà interagir avec l'assistant vocal sur des données du dataset `sujet-ai/Sujet-Financial-RAG-FR-Dataset`. Toute question en dehors des données de la base n'est pas acceptable comme cela est demandé.
+
+À noter également que **Deepgram** n'est pas très performant pour la reconnaissance des **noms propres**, ce qui pourrait influencer la qualité des transcriptions dans certains cas.
