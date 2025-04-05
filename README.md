@@ -1,6 +1,4 @@
-<div align="center">
-	<img src="assets/logo.png">
-</div>
+
 
 ## Choix des Modèles et des Technologies
 
@@ -58,7 +56,7 @@ Pour utiliser ce projet, suivez les étapes ci-dessous :
 Ouvrez un terminal et exécutez la commande suivante pour cloner le dépôt :
 
 ```bash
-git clone https://github.com/SadokBarbouche/Plug-Tel_TechnicalTest
+git clone https://github.com/SadokBarbouche/Voice-Assistant-Over-Financial-Data
 ```
 
 ### 2. Accéder au Dossier du Projet
@@ -66,7 +64,7 @@ git clone https://github.com/SadokBarbouche/Plug-Tel_TechnicalTest
 Naviguez dans le dossier du projet :
 
 ```bash
-cd Plug-Tel_TechnicalTest
+cd Voice-Assistant-Over-Financial-Data
 ```
 
 ### 3. Créer un Environnement Virtuel
